@@ -17,6 +17,18 @@ export class Phonebook extends Component {
     filter: '',
   }
 
+  componentDidMount() {
+    const savedLS = localStorage.getItem('contacts');
+    const contacts = JSON.parse(savedLS);
+    this.setState({contacts});
+  }
+
+  componentDidUpdate(prevProp, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   onLeaveContact = (e) => {
     e.preventDefault();
     const {elements: { name, number }}  = e.currentTarget;
